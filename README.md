@@ -10,6 +10,11 @@ Input data for this project is from this datasource: https://www.kaggle.com/data
 
 1. Install as per the instructions in the [PostgresML documentation](https://postgresml.org/docs/guides/setup/quick_start_with_docker)
 
+2. Install the Postgres client already installed on your PC, if you don't have it already:
+```bash
+sudo apt install postgresql-client
+```
+
 ```bash
 #As documented here: https://postgresml.org/docs/guides/setup/quick_start_with_docker
 

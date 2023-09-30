@@ -13,7 +13,7 @@ WEATHER_CSVS=("Plant_1_Weather_Sensor_Data.csv" "Plant_1_Weather_Sensor_Data.csv
 # Connect to the DB and create tables
 PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USER -d $DB_NAME <<EOF
 -- Create table for solar plant data
-CREATE TABLE IF NOT EXISTS solar_plant_data (
+CREATE TABLE IF NOT EXISTS solar_plant_generation (
     DATE_TIME TIMESTAMP,
     PLANT_ID INT,
     SOURCE_KEY VARCHAR(255),
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS solar_plant_data (
 );
 
 -- Create table for weather data
-CREATE TABLE IF NOT EXISTS weather_data (
+CREATE TABLE IF NOT EXISTS weather (
     DATE_TIME TIMESTAMP,
     PLANT_ID INT,
     SOURCE_KEY VARCHAR(255),
@@ -42,7 +42,7 @@ fi
 
 # Import solar plant data from CSVs
 for csv in "${SOLAR_CSVS[@]}"; do
-    PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USER -d $DB_NAME -c "\COPY solar_plant_data FROM '$csv' DELIMITER ',' CSV HEADER;"
+    PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USER -d $DB_NAME -c "\COPY solar_plant_generation FROM '$csv' DELIMITER ',' CSV HEADER;"
     if [ $? -ne 0 ]; then
         echo "Error importing solar plant data from $csv"
         exit 1
@@ -52,7 +52,7 @@ done
 
 # Import weather data from CSVs
 for csv in "${WEATHER_CSVS[@]}"; do
-    PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USER -d $DB_NAME -c "\COPY weather_data FROM '$csv' DELIMITER ',' CSV HEADER;"
+    PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USER -d $DB_NAME -c "\COPY weather FROM '$csv' DELIMITER ',' CSV HEADER;"
     if [ $? -ne 0 ]; then
         echo "Error importing weather data from $csv"
         exit 1
