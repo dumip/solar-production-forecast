@@ -44,3 +44,23 @@ SELECT * FROM pgml.train(
   test_sampling => 'last'
 );
 ```
+
+6. Run the model
+```sql
+select pgml.predict (
+	'Solar Panel Production Forecast V4',
+	(
+		2020,
+		6,
+		17,
+		23,
+		45,
+		cast('4135001' as text),
+		cast('adLQvlD726eNBSB' as text),
+		cast('HmiyD2TTLFNqkNe' as text),
+		cast(21.909287666666668 as float8),
+		cast(20.4279724 as float8),
+		0
+	)
+);
+```
