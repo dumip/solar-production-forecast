@@ -23,7 +23,7 @@ echo "DB_NAME: $DB_NAME"
 
 # List of CSV files for solar plant data and weather data
 SOLAR_CSVS=("Plant_1_Generation_Data.csv" "Plant_2_Generation_Data.csv")
-WEATHER_CSVS=("Plant_1_Weather_Sensor_Data.csv" "Plant_1_Weather_Sensor_Data.csv")
+WEATHER_CSVS=("Plant_1_Weather_Sensor_Data.csv" "Plant_2_Weather_Sensor_Data.csv")
 
 # Connect to the DB and create tables
 PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME <<EOF
