@@ -13,12 +13,20 @@ fi
 DB_HOST="$1"
 DB_PORT="$2"
 
+# Print input params in the console
+echo "DB_HOST: $DB_HOST"
+echo "DB_PORT: $DB_PORT"
+echo "DB_USER: $DB_USER"
+echo "DB_PASSWORD: $DB_PASSWORD"
+echo "DB_NAME: $DB_NAME"
+
+
 # List of CSV files for solar plant data and weather data
 SOLAR_CSVS=("Plant_1_Generation_Data.csv" "Plant_2_Generation_Data.csv")
 WEATHER_CSVS=("Plant_1_Weather_Sensor_Data.csv" "Plant_1_Weather_Sensor_Data.csv")
 
 # Connect to the DB and create tables
-PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USER -d $DB_NAME <<EOF
+PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME <<EOF
 -- Create table for solar plant data
 CREATE TABLE IF NOT EXISTS solar_plant_generation (
     DATE_TIME TIMESTAMP,
@@ -49,7 +57,12 @@ fi
 
 # Import solar plant data from CSVs
 for csv in "${SOLAR_CSVS[@]}"; do
-    PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USER -d $DB_NAME -c "\COPY solar_plant_generation FROM '$csv' DELIMITER ',' CSV HEADER;"
+    PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME <<EOF
+    SET datestyle = 'DMY';
+    \COPY solar_plant_generation FROM '$csv' DELIMITER ',' CSV HEADER;
+    \q
+EOF
+
     if [ $? -ne 0 ]; then
         echo "Error importing solar plant data from $csv"
         exit 1
@@ -59,7 +72,12 @@ done
 
 # Import weather data from CSVs
 for csv in "${WEATHER_CSVS[@]}"; do
-    PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -U $DB_USER -d $DB_NAME -c "\COPY weather FROM '$csv' DELIMITER ',' CSV HEADER;"
+    PGPASSWORD=$DB_PASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USER -d $DB_NAME <<EOF
+    SET datestyle = 'DMY';
+    \COPY weather FROM '$csv' DELIMITER ',' CSV HEADER;
+    \q
+EOF
+
     if [ $? -ne 0 ]; then
         echo "Error importing weather data from $csv"
         exit 1
