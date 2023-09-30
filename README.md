@@ -2,6 +2,10 @@
 
 This project is a proof of concept for using PostgresML to forecast solar production.
 
+## Data
+Input data for this project is from this datasource: https://www.kaggle.com/datasets/anikannal/solar-power-generation-data
+
+
 ## Getting Started
 
 1. Install as per the instructions in the [PostgresML documentation](https://postgresml.org/docs/guides/setup/quick_start_with_docker)
