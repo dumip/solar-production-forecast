@@ -32,3 +32,15 @@ docker run \
 # You need to put the correct host and port for your PostgresML instance
 ./impor-data.sh localhost 5433
 ```
+
+5. Train the model
+```sql
+SELECT * FROM pgml.train(
+  project_name => 'Solar Panel Production Forecast', 
+  task => 'regression', 
+  relation_name => 'vw_solar_plant_generation', 
+  y_column_name => 'ac_power',
+  test_size => 5,
+  test_sampling => 'last'
+);
+```
