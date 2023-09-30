@@ -1,10 +1,17 @@
 #!/bin/bash
 
 # Configuration
-DB_HOST="localhost"
 DB_USER="postgresml"
 DB_PASSWORD="postgresml"
 DB_NAME="postgres"
+
+# Check if hostname and port arguments are provided
+if [ "$#" -ne 2 ]; then
+    echo "Usage: $0 <DB_HOST> <DB_PORT>"
+    exit 1
+fi
+DB_HOST="$1"
+DB_PORT="$2"
 
 # List of CSV files for solar plant data and weather data
 SOLAR_CSVS=("Plant_1_Generation_Data.csv" "Plant_2_Generation_Data.csv")
