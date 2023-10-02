@@ -70,3 +70,29 @@ select pgml.predict (
 	)
 );
 ```
+
+8. Now, if you want to run the prediction on multiple rows, you have two choices, as described below:
+```sql
+-- Use the predict function, but with some penalty on larger datasets
+select pg.*,
+pgml.predict (
+	'Solar Panel Production Forecast3',
+	(
+		pg.year,
+		pg.month,
+		pg.day,
+		pg.hour,
+		pg.minute,
+		pg.plant_id,
+		pg.panel_id,
+		pg.sensor_id,
+		pg.ambient_temperature,
+		pg.module_temperature,
+		pg.irradiation
+	)
+) as predicted_ac_power
+from vw_solar_plant_generation pg;
+
+-- Use the predict batch, as described here: https://postgresml.org/docs/guides/predictions/batch
+TODO: 
+```
