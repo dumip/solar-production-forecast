@@ -33,7 +33,13 @@ docker run \
 ./impor-data.sh localhost 5433
 ```
 
-5. Train the model
+5. Enable the pgml extension
+```sql
+CREATE EXTENSION IF NOT EXISTS pgml;
+SELECT pgml.version();
+```
+
+6. Train the model
 ```sql
 SELECT * FROM pgml.train(
   project_name => 'Solar Panel Production Forecast', 
@@ -45,7 +51,7 @@ SELECT * FROM pgml.train(
 );
 ```
 
-6. Run the model
+7. Run the model
 ```sql
 select pgml.predict (
 	'Solar Panel Production Forecast V4',
