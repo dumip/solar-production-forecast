@@ -4,8 +4,8 @@ import sys
 import pandas as pd
 from datetime import datetime
 
-input_folder = './ro-data'
-output_file = './ro-data/combined_data.csv'
+input_folder = './ro-data/one_year/'
+output_file = './ro-data/combined_data_one_year.csv'
 
 # An empty list to store individual dataframes
 dataframes = []
@@ -36,8 +36,11 @@ for filename in os.listdir(input_folder):
                 print("Processing row: " + ', '.join(row))
                 time_str, power, irradiance = row
                 if "x" in power:
-                    print("We have a problem Houston, unreliable data" + power)
-                    power = "0.00"
+                    print("We have a problem Houston, unreliable power data. Skip the current data set" + power)
+                    continue
+                if "x" in irradiance:
+                    print("We have a problem Houston, unreliable irradiance data" + irradiance)
+                    continue
 
                 timestamp = datetime.strptime(f'{date_str} {time_str}', '%d/%m/%Y %H:%M')
                 temp_data.append({'Timestamp': timestamp, 'Irradiance(W/m2)': irradiance, 'Power(KW)': power})
